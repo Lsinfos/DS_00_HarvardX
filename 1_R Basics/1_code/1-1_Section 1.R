@@ -118,6 +118,10 @@ region <- murders$region
 value <- murders$total
 region <- reorder(region, value, FUN = sum)
 levels(region) # the new order is in agreement with the fact that the Northeast has the least murders and the South has the most.
+# Use levels() and length() function to determine the number of regions defined by this dataset
+length(levels(murders$region)) # length 4
+# table() function takes a vector and returns the frequency of each element
+table(murders$region)
 
 # Lists: data frames are a special case of list. Lists are useful because you can combine any combination of different types
 record <- list(name = "John Doe", 
