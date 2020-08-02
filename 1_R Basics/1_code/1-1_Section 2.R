@@ -55,3 +55,41 @@ class(y) # turns it back to numeric.
 x <- c("1", "b", "3")
 as.numeric(x) # R does not have any guess for what number stands for "b", so it returns a NA value.
 # In data science, NAs are often used for missing data, a common problem in real-world datasets.
+
+# 2.3 Sorting ####
+
+# sort() function: sorts a vector in increasing order.
+# E.g, use sort() to rank the states from least to most gun murders
+library(dslabs)
+data(murders)
+sort(murders$total) # however, this does not give much information about which states have which murder totals.
+
+# order() function: takes a vector as input and returns the vector of indexes that sorts the input vector
+x <- c(31, 4, 15, 92, 65)
+order(x)
+index <- order(x)
+x[index] # same output as order(x)
+
+# In the case study, the entries of vectors accessed with $ follow the same order as the rows in the table
+murders$state[1:6]
+murders$abb[1:6] #state names and abbreviations match respectively.
+# This means we can order the state names by their total murders. First obtain the index that orders the vectors according to murder totals and then index the state names vector:
+ind <- order(murders$total)
+murders$abb[ind] # Carlifornia has the most murders.
+
+# max(): gives the largest value
+max(murders$total)
+
+# which.max(): gives index of the largest value
+i_max <- which.max(murders$total)
+murders$state[i_max]
+
+# min() and which.min(): similarly for the minimum value.
+
+# rank(): returns a vector with the rank of the input vector:
+rank(x)
+
+# Recycling: vectors are added elementwise. If the vectors don't match in length, it is natural to assume that we should get an error. But R recycles the vector's elements and only gives warning 
+y <- c(1, 2, 3)
+y <- c(10, 20, 30, 40, 50, 60, 70)
+x + y
