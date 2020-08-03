@@ -93,3 +93,33 @@ rank(x)
 y <- c(1, 2, 3)
 y <- c(10, 20, 30, 40, 50, 60, 70)
 x + y
+
+# 2.4 Vector arithmetics ####
+
+# California had the most murders, but does it mean it is the most dangerous state? What if it just has many more people? Confirm by
+murders$state[which.max(murders$population)] # California has indeed the largest population in the US.
+# To compare how safe different states are, what we should compute is the murders per capita by using vector arithmetic capibilities.
+
+# Rescale a vector: arithmetic operations on vectors occur element-wise. E.g, suppose we have height in inches:
+inches <- c(69, 62, 66, 70, 73, 67, 73, 67, 70)
+# Convert to centimeters
+inches * 2.54 # each element is multiplied by 2.54
+
+# Two vectors: if two vectors have the same length, the sum will be added entry by entry. The same holds for other mathematical operations, such as -, * and /
+# Compute the murder rates 
+murder_rate <- murders$total / murders$population * 100000
+# Order the states by the murder rate, in decreasing order
+murders$state[order(murder_rate, decreasing = TRUE)] # California is not even in the top 10.
+
+# 2.5 Indexing ####
+
+# R provides a powerful and convenient way of indexing vectors. We can, e.g, subset a vector based on properties of another vector. 
+
+# Subsetting with logicals: e.g, if you're moving from Italy where the murder rate is only 0.71 per capita. You would prefer to move a state with a similar murder rate. R compares a vector with a single number by performing the test for each entry
+ind <- murder_rate <0.71
+# or instead we want to know if the value is less or equal
+ind <- murder_rate <= 0.71
+# To see which states these are, use index with logicals
+murders$state[ind]
+# Count how many are TRUE, sum() function returns the sum of the entries of a vector and logical vectors get coerced to numeric with TRUE coded as 1 and FALSE as 0
+sum(ind)
