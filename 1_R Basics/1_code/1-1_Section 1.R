@@ -61,6 +61,8 @@ args(log)
 # Change the default value by simply assigning another object:
 log(8, base = 2)
 log(8, 2) # if no argument name is used, R assumes entered arguments in the order shown in the help file.
+# Nested function: evaluate a function inside another function
+sqrt(log2(16)) # calculate the log to the base 2 of 16 then compute the square root of that value.
 
 # prebuilt datasets: datasets that are included in Base R to practice and test out functions. View all the datasets:
 data() 
@@ -75,6 +77,15 @@ solution_1 <- (-b + sqrt(b^2 - 4*a*c))/(2*a)
 solution_2 <- (-b - sqrt(b^2 - 4*a*c))/(2*a)
 # Values remain in the workspace until the session is ended or being erase with rm()
 rm(solution_1)
+
+# Formular for computing the sum of the first 20 integers
+20*(20+1)/2
+# However, we can define a variable to use the formular for other values of n
+n <- 20
+n*(n+1)/2
+# Compute the sum of the first 100 integers using the formular
+n <- 100
+n*(n+1)/2
 
 # 1.4 Data Types ####
 
@@ -92,14 +103,18 @@ class(murders)
 str(murders)
 # Show the first lines using head() function
 head(murders)
-
-# The accessor $: access variables represented by columns in the data frame
-murders$population
 # The str() function reveals the names for each variables stored in this table. Quickly access these names using the name() function
 names(murders)
 
-# Vectors: the object murders$population is not one but several. These types of objects are called vectors. A single number is technically a vector of length 1. Use length() function to tell how many entries in the vector:
+# The accessor $: access variables represented by columns in the data frame
+murders$population
+# There are multiple ways to access variables in a data frame, using accessor or double square brackets []
 pop <- murders$population
+pop2 <- murders[["population"]]
+# Confirm these two variables are the same
+identical(pop, pop2)
+
+# Vectors: the object murders$population is not one but several. These types of objects are called vectors. A single number is technically a vector of length 1. Use length() function to tell how many entries in the vector:
 length(pop) # 51
 class(pop) # This particular vector is numeric, since population sizes are numbers.
 # To store character strings, vectors can also be of class "characters"
@@ -113,6 +128,8 @@ class(z) # "logical"
 class(murders$region)
 # There are only 4 categories. Obtain these categories by levels()
 levels(murders$region)
+# Determine the number of regions included
+length(levels(murders$region))
 # The default order of the levels is the alphabeitical order. Use reorder() function to change the order of the levels of a factor variable based on a summary computed on a numeric vector
 region <- murders$region
 value <- murders$total
@@ -146,3 +163,6 @@ as.data.frame(mat)
 # You can also use the square bracket to access rows and columns of a data frame
 murders[25,1]
 murders[2:3,]
+
+# table(): takes a vector as an input and returns the frequency of each unique element in the vector
+table(murders$region)
