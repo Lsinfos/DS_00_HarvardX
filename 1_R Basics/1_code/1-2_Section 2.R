@@ -29,6 +29,10 @@ seq(1, 10, 2)
 class(1:10)
 # If the sequence contains a non-integers, the class changes
 class(seq(1, 10, 0.5))
+# Determine the length of the sequence
+length(seq(1, 10, 2))
+# length.out: this argument generates sequences that are increasing by the same amount but are of the predescribed length
+seq(1, 10, length.out = 100)
 
 # Subsetting: use square bracket [] to access specific elements of a vector
 codes[2] # canada
@@ -56,6 +60,19 @@ x <- c("1", "b", "3")
 as.numeric(x) # R does not have any guess for what number stands for "b", so it returns a NA value.
 # In data science, NAs are often used for missing data, a common problem in real-world datasets.
 
+# is.na(): returns a logical vector that tells us which entries are NA.
+# The na_example dataset which is a part of the dslabs package represents a series of counts
+data("na_example")
+# Checking out the structure of the dataset
+str(na_example) 
+# Find out the mean() of the entire dataset
+mean(na_example) # returns NA because there's NA value in it.
+# Compute the average, for entries of na_example that are not NA
+mean(na_example[!is.na(na_example)])
+
+# Determine how many NAs there are in the dataset
+sum(is.na(na_example)) # sum() counts TRUE as 1.
+
 # 2.3 Sorting ####
 
 # sort() function: sorts a vector in increasing order.
@@ -63,12 +80,19 @@ as.numeric(x) # R does not have any guess for what number stands for "b", so it 
 library(dslabs)
 data(murders)
 sort(murders$total) # however, this does not give much information about which states have which murder totals.
+# When looking at the dataset, we may want to sort the data in an order that makes more sense for analysis. E.g, sort the states alphabetically
+states <- sort(murders$state)
+# Report the first alphabetical value
+state[1] #"Alabama"
 
 # order() function: takes a vector as input and returns the vector of indexes that sorts the input vector
 x <- c(31, 4, 15, 92, 65)
 order(x)
 index <- order(x)
 x[index] # same output as order(x)
+# This can be useful for finding row numbers with certain properties, e.g "the state with the smallest population"
+pop <- murders$population
+order(pop)[1] # row 51
 
 # In the case study, the entries of vectors accessed with $ follow the same order as the rows in the table
 murders$state[1:6]
@@ -82,12 +106,18 @@ max(murders$total)
 
 # which.max(): gives index of the largest value
 i_max <- which.max(murders$total)
-murders$state[i_max]
+states[i_max] # "California"
 
 # min() and which.min(): similarly for the minimum value.
+i_min <- which.min(murders$population)
+states[i_min] "Wyoming"
 
 # rank(): returns a vector with the rank of the input vector:
 rank(x)
+# Determine the population size ranks
+ranks <- rank(pop)
+# If rank(x) gives you the ranks of x from lowest to highest, rank(-x) gives you the ranks from highest to lowest
+rank(-x)
 
 # Recycling: vectors are added elementwise. If the vectors don't match in length, it is natural to assume that we should get an error. But R recycles the vector's elements and only gives warning 
 y <- c(1, 2, 3)
@@ -108,5 +138,7 @@ inches * 2.54 # each element is multiplied by 2.54
 # Two vectors: if two vectors have the same length, the sum will be added entry by entry. The same holds for other mathematical operations, such as -, * and /
 # Compute the murder rates 
 murder_rate <- murders$total / murders$population * 100000
+# Calculate the average rate in the US
+mean(murder_rate)
 # Order the states by the murder rate, in decreasing order
 murders$state[order(murder_rate, decreasing = TRUE)] # California is not even in the top 10.
