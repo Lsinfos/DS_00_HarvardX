@@ -1,6 +1,6 @@
 # REVIEW R BASICS
 
-# "heights" dataset ####
+# 5.1 "heights" dataset ####
 
 library(dplyr)
 library(dslabs)
@@ -51,3 +51,18 @@ females <- filter(heights2, sex == "Female")
 nrow(females)
 # What is the mean height of the females in centimeters?
 mean(females$ht_cm)
+
+
+# 5.2 "olive" dataset ####
+
+data(olive)
+head(olive)
+
+# Plot the percent palmitic acid versus palmitoleic acid in a scatterplot
+plot(olive$palmitic, olive$palmitoleic)
+
+# Create a histogram of the percentage of eicosenoic acid in olive
+hist(olive$eicosenoic)
+
+# Make a boxplot of palmitic acid percentage in olive with separate distributions for each region.
+boxplot(palmitic ~ region, data = olive)
