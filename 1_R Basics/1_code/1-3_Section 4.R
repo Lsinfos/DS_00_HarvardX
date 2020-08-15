@@ -39,12 +39,19 @@ result <- ifelse(a > 0, 1/a, NA)
 data("na_example")
 no_nas <- ifelse(is.na(na_example), 0, na_example)
 sum(is.na(no_nas))
+# The function nchar tells you how many characters long a character vector is. 
+char_len <- nchar(murders$state)
+head(char_len)
+# Assign the state abbreviation when the state name is longer than 8 characters 
+ifelse(nchar(murders$state) > 8, murders$abb, murders$state)
 
 # any(): takes a vector of logicals and returns TRUE if any of the entries is TRUE.
 # all(): takes a vector of logicals and returns TRUE if all of the entries are TRUE.
 z <- c(TRUE, TRUE, FALSE)
 any(z)
 all(z)
+# The expressions is always FALSE when at least one entry of a logical vector x is TRUE
+all(!x)
 
 # 4.2 Functions ####
 
@@ -67,6 +74,19 @@ avg <- function(x, arithmetic = TRUE){
   ifelse(arithmetic, sum(x/n), prod(x)^(1/n))
 }
 
+# Create function called `sum_n`
+sum_n <- function(n){
+  sum(1:n)
+}
+# Use the function to determine the sum of integers from 1 to 5000
+sum_n(5000)
+
+# Functions could be defined with multiple variables
+log_plot <- function(x, y){
+  plot(log10(x), log10(y))
+}
+log_plot(100, 200)
+
 # 4.3 For-loops ####
 
 # For-loops perform the same task over and over while changing the variable. E.g, write a function to calculate the sum 1 + 2 + 3 +...+ n
@@ -79,19 +99,26 @@ for(i in 1:5){
   print(i)
 }
 # Write the for-loop for Sn
-n <- 25
-for(i in 1:n){
-  print(compute_s_n(i))
-}
-# We could also compute Sn and store it in the nth entry of the sum
-m <- 25
-s_n <- vector(length = m) # create an empty vector
-for(n in 1:m){
-  s_n[n] <- compute_s_n(n)
+n <- 1:25
+s_n <- vector("numeric", 25) # create an empty vector to store data
+for(i in n){   
+  s_n[i] <- compute_s_n(i)
 } # in each iteration n = 1, n = 2, etc..., we compute Sn and store it in the nth entry of s_n.
 # Create a plot to search for a pattern
-n <- 1:m
 plot(n, s_n) # the plot appeears to be a quadratic, that match the formular 1 + 2 +...+ n = n(n+1)/2.
+
+# Write a function with argument n that for any given n computes the sum of 1 + 2^2 + ...+ n^2
+compute_s_n2 <- function(n){
+  n*(n+1)*(2*n+1)/6
+}
+# Report the value of the sum when n = 10
+compute_s_n2(10)
+# Write for-loop
+for(i in n){
+  s_n[i] <- compute_s_n2(i)
+}
+# Check that s_n is identical to the mathematical formula
+identical(s_n, n*(n+1)*(2*n+1)/6)
 
 #4.4 Vectorization and functionals ####
 
