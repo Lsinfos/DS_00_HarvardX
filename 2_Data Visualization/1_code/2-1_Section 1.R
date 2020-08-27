@@ -44,3 +44,22 @@ barplot(region) # barplots are often used to display a few numbers.
 # Histograms are much more preferred to display numerical data. Histogram sacrifices a bit of information to produce plots that are easy to interpret.
 hist(heights$height) 
 # A histogram divides data into non-overlapping bins of the same size and plots the counts of values that fall in that intervals.E.g, the height data splits the range of values into one inch intervals. Histograms don't distinguish between 60.0, 60.1 and 60.2 inches. Given that these differences are almost unnoticeable to the eye, the practical implications are negligible.  
+
+# 1.4 Normal Distribution ####
+
+# The normal distribution is defined by 2 parameters: the average and the standard deviation.
+# Define x as a vector of male heights 
+index <- heights$sex == "Male"
+x <- heights$height[index]
+# Calculate the mean and standard deviation
+average <- sum(x)/length(x)
+SD <- sqrt(sum((x - average)^2)/length(x))  #SD can be interpreted as the average distance between values and their average.
+# Or using the built-in mean() and sd() functions
+average <- mean(x)
+SD <- sd(x)
+c(average = average, SD = SD)
+
+# Standard units: For data that is approximately normal distributed, it is convenient to think in terms of standard units. The standard unit tells how many standard deviations away from the average it is. In R, standard units can be obtained with scale()
+z <- scale(x)
+# Calculate proportion of values within 2 SD of mean 
+mean(abs(z) < 2) # x 95%, which is what the normal distribution predicts.
